@@ -5,9 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CNN Image Classifier | AI-Powered Recognition</title>
-    <meta name="description"
-        content="Upload images and let our CNN model classify them with high accuracy. Experience the power of deep learning.">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <meta name="description" content="Upload images and let our CNN model classify them with high accuracy.">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@400;600&display=swap"
+        rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -16,15 +17,11 @@
         }
 
         :root {
-            --primary: #6366f1;
-            --primary-dark: #4f46e5;
-            --secondary: #ec4899;
-            --dark: #0f172a;
-            --dark-lighter: #1e293b;
-            --text: #e2e8f0;
-            --text-muted: #94a3b8;
-            --glass: rgba(255, 255, 255, 0.05);
-            --glass-border: rgba(255, 255, 255, 0.1);
+            --primary: #ff6b35;
+            --secondary: #00d4ff;
+            --dark: #0a0a0f;
+            --text: #ffffff;
+            --text-muted: #a0a0a0;
         }
 
         body {
@@ -35,74 +32,29 @@
             overflow-x: hidden;
         }
 
-        /* Animated gradient background */
-        .bg-gradient {
+        /* Car background */
+        .car-bg {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: -1;
-            background:
-                radial-gradient(ellipse at 20% 20%, rgba(99, 102, 241, 0.15) 0%, transparent 50%),
-                radial-gradient(ellipse at 80% 80%, rgba(236, 72, 153, 0.15) 0%, transparent 50%),
-                radial-gradient(ellipse at 50% 50%, rgba(16, 185, 129, 0.1) 0%, transparent 50%);
-            animation: gradientMove 15s ease-in-out infinite;
+            z-index: 0;
+            background: url("{{ url_for('static', filename='car_bg.jpg') }}") center center / cover no-repeat;
         }
 
-        @keyframes gradientMove {
-
-            0%,
-            100% {
-                transform: scale(1) rotate(0deg);
-            }
-
-            50% {
-                transform: scale(1.1) rotate(3deg);
-            }
-        }
-
-        /* Floating particles */
-        .particles {
+        /* Dark overlay */
+        .overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: -1;
-            overflow: hidden;
-        }
-
-        .particle {
-            position: absolute;
-            width: 4px;
-            height: 4px;
-            background: var(--primary);
-            border-radius: 50%;
-            opacity: 0.3;
-            animation: float 20s infinite;
-        }
-
-        @keyframes float {
-
-            0%,
-            100% {
-                transform: translateY(100vh) rotate(0deg);
-                opacity: 0;
-            }
-
-            10% {
-                opacity: 0.3;
-            }
-
-            90% {
-                opacity: 0.3;
-            }
-
-            100% {
-                transform: translateY(-100vh) rotate(720deg);
-                opacity: 0;
-            }
+            z-index: 1;
+            background: linear-gradient(to bottom,
+                    rgba(0, 0, 0, 0.5) 0%,
+                    rgba(0, 0, 0, 0.3) 50%,
+                    rgba(0, 0, 0, 0.7) 100%);
         }
 
         /* Navigation */
@@ -115,37 +67,18 @@
             justify-content: space-between;
             align-items: center;
             z-index: 100;
-            backdrop-filter: blur(20px);
-            background: rgba(15, 23, 42, 0.8);
-            border-bottom: 1px solid var(--glass-border);
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
         }
 
         .logo {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
+            font-family: 'Orbitron', sans-serif;
             font-size: 1.5rem;
             font-weight: 700;
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-        }
-
-        .logo-icon {
-            width: 40px;
-            height: 40px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .logo-icon svg {
-            width: 24px;
-            height: 24px;
-            fill: white;
         }
 
         .nav-links {
@@ -167,63 +100,45 @@
 
         /* Hero Section */
         .hero {
+            position: relative;
+            z-index: 10;
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 8rem 2rem 4rem;
+            padding: 2rem;
         }
 
         .hero-content {
-            max-width: 800px;
             text-align: center;
+            max-width: 800px;
         }
 
         .badge {
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
-            padding: 0.5rem 1rem;
-            background: var(--glass);
-            border: 1px solid var(--glass-border);
+            padding: 0.5rem 1.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: 50px;
             font-size: 0.875rem;
-            color: var(--text-muted);
+            color: var(--secondary);
             margin-bottom: 2rem;
-            animation: fadeInUp 0.8s ease;
-        }
-
-        .badge-dot {
-            width: 8px;
-            height: 8px;
-            background: #10b981;
-            border-radius: 50%;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-
-            0%,
-            100% {
-                opacity: 1;
-                transform: scale(1);
-            }
-
-            50% {
-                opacity: 0.5;
-                transform: scale(1.2);
-            }
+            backdrop-filter: blur(10px);
         }
 
         h1 {
-            font-size: clamp(2.5rem, 6vw, 4rem);
-            font-weight: 700;
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(2.5rem, 8vw, 5rem);
+            font-weight: 900;
             line-height: 1.1;
             margin-bottom: 1.5rem;
-            animation: fadeInUp 0.8s ease 0.1s both;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
         }
 
-        h1 span {
+        h1 .highlight {
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -231,104 +146,11 @@
         }
 
         .hero-description {
-            font-size: 1.25rem;
+            font-size: 1.2rem;
             color: var(--text-muted);
             max-width: 600px;
             margin: 0 auto 3rem;
             line-height: 1.7;
-            animation: fadeInUp 0.8s ease 0.2s both;
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Upload Section */
-        .upload-container {
-            animation: fadeInUp 0.8s ease 0.3s both;
-        }
-
-        .upload-box {
-            background: var(--glass);
-            border: 2px dashed var(--glass-border);
-            border-radius: 24px;
-            padding: 3rem;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .upload-box:hover {
-            border-color: var(--primary);
-            background: rgba(99, 102, 241, 0.1);
-            transform: translateY(-4px);
-        }
-
-        .upload-box.dragover {
-            border-color: var(--secondary);
-            background: rgba(236, 72, 153, 0.1);
-        }
-
-        .upload-icon {
-            width: 80px;
-            height: 80px;
-            margin: 0 auto 1.5rem;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            border-radius: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            animation: bounce 2s infinite;
-        }
-
-        @keyframes bounce {
-
-            0%,
-            100% {
-                transform: translateY(0);
-            }
-
-            50% {
-                transform: translateY(-10px);
-            }
-        }
-
-        .upload-icon svg {
-            width: 40px;
-            height: 40px;
-            stroke: white;
-            stroke-width: 2;
-            fill: none;
-        }
-
-        .upload-text h3 {
-            font-size: 1.25rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .upload-text p {
-            color: var(--text-muted);
-            font-size: 0.9rem;
-        }
-
-        .upload-text .file-types {
-            margin-top: 1rem;
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            opacity: 0.7;
-        }
-
-        #file-input {
-            display: none;
         }
 
         /* CTA Button */
@@ -336,28 +158,42 @@
             display: inline-flex;
             align-items: center;
             gap: 0.75rem;
-            padding: 1rem 2rem;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            padding: 1.25rem 3rem;
+            background: linear-gradient(135deg, var(--primary), #ff4500);
             color: white;
+            font-family: 'Orbitron', sans-serif;
             font-size: 1rem;
-            font-weight: 600;
+            font-weight: 700;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
             border: none;
-            border-radius: 12px;
+            border-radius: 50px;
             cursor: pointer;
             transition: all 0.3s ease;
-            margin-top: 2rem;
+            box-shadow: 0 10px 30px rgba(255, 107, 53, 0.3);
         }
 
         .cta-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 20px 40px rgba(99, 102, 241, 0.3);
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(255, 107, 53, 0.4);
+        }
+
+        .cta-button svg {
+            transition: transform 0.3s ease;
+        }
+
+        .cta-button:hover svg {
+            transform: translateX(5px);
         }
 
         /* Features Section */
         .features {
+            position: relative;
+            z-index: 10;
             padding: 6rem 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(20px);
         }
 
         .section-header {
@@ -366,6 +202,7 @@
         }
 
         .section-header h2 {
+            font-family: 'Orbitron', sans-serif;
             font-size: 2.5rem;
             margin-bottom: 1rem;
         }
@@ -379,20 +216,22 @@
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
         .feature-card {
-            background: var(--glass);
-            border: 1px solid var(--glass-border);
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 20px;
             padding: 2rem;
             transition: all 0.3s ease;
         }
 
         .feature-card:hover {
-            transform: translateY(-8px);
+            transform: translateY(-5px);
             border-color: var(--primary);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 20px 40px rgba(255, 107, 53, 0.1);
         }
 
         .feature-icon {
@@ -415,6 +254,7 @@
         }
 
         .feature-card h3 {
+            font-family: 'Orbitron', sans-serif;
             font-size: 1.25rem;
             margin-bottom: 0.75rem;
         }
@@ -426,39 +266,13 @@
 
         /* Footer */
         footer {
-            padding: 3rem 2rem;
+            position: relative;
+            z-index: 10;
+            padding: 2rem;
             text-align: center;
-            border-top: 1px solid var(--glass-border);
+            background: rgba(0, 0, 0, 0.9);
             color: var(--text-muted);
-        }
-
-        /* Preview Modal */
-        .preview-container {
-            display: none;
-            margin-top: 2rem;
-            padding: 1.5rem;
-            background: var(--dark-lighter);
-            border-radius: 16px;
-            border: 1px solid var(--glass-border);
-        }
-
-        .preview-container.active {
-            display: block;
-            animation: fadeInUp 0.5s ease;
-        }
-
-        .preview-image {
-            max-width: 300px;
-            max-height: 300px;
-            border-radius: 12px;
-            margin: 0 auto;
-            display: block;
-        }
-
-        .preview-name {
-            margin-top: 1rem;
             font-size: 0.9rem;
-            color: var(--text-muted);
         }
 
         /* Responsive */
@@ -474,27 +288,16 @@
             .hero {
                 padding: 6rem 1.5rem 3rem;
             }
-
-            .upload-box {
-                padding: 2rem 1.5rem;
-            }
         }
     </style>
 </head>
 
 <body>
-    <div class="bg-gradient"></div>
-    <div class="particles" id="particles"></div>
+    <div class="car-bg"></div>
+    <div class="overlay"></div>
 
     <nav>
-        <div class="logo">
-            <div class="logo-icon">
-                <svg viewBox="0 0 24 24">
-                    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
-                </svg>
-            </div>
-            CNN Classifier
-        </div>
+        <div class="logo">SPEEDZONE</div>
         <ul class="nav-links">
             <li><a href="#home">Home</a></li>
             <li><a href="#features">Features</a></li>
@@ -505,55 +308,26 @@
     <section class="hero" id="home">
         <div class="hero-content">
             <div class="badge">
-                <span class="badge-dot"></span>
-                Powered by Deep Learning
+                ⚡ Powered by Deep Learning
             </div>
-            <h1>Intelligent Image <span>Classification</span> Made Simple</h1>
+            <h1>Experience <span class="highlight">Speed</span> Like Never Before</h1>
             <p class="hero-description">
-                Upload any image and let our Convolutional Neural Network analyze and classify it
-                with remarkable accuracy. Experience the future of AI-powered recognition.
+                Enter the portal and discover a world of high-octane thrills.
+                The ultimate racing experience awaits.
             </p>
-
-            <div class="upload-container">
-                <form method="post" enctype="multipart/form-data" id="upload-form">
-                    <div class="upload-box" id="upload-box">
-                        <div class="upload-icon">
-                            <svg viewBox="0 0 24 24">
-                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-                                <polyline points="17 8 12 3 7 8" />
-                                <line x1="12" y1="3" x2="12" y2="15" />
-                            </svg>
-                        </div>
-                        <div class="upload-text">
-                            <h3>Drag & Drop your image here</h3>
-                            <p>or click to browse from your device</p>
-                            <p class="file-types">Supports: JPG, PNG, WEBP • Max 10MB</p>
-                        </div>
-                        <input type="file" name="file" id="file-input" accept="image/*">
-                    </div>
-
-                    <div class="preview-container" id="preview-container">
-                        <img src="" alt="Preview" class="preview-image" id="preview-image">
-                        <p class="preview-name" id="preview-name"></p>
-                    </div>
-
-                    <a href="/abc" class="cta-button">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2">
-                            <circle cx="12" cy="12" r="10" />
-                            <path d="M12 16l4-4-4-4M8 12h8" />
-                        </svg>
-                        Enter Portal
-                    </a>
-                </form>
-            </div>
+            <a href="/abc" class="cta-button">
+                Enter Portal
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M5 12h14M12 5l7 7-7 7" />
+                </svg>
+            </a>
         </div>
     </section>
 
     <section class="features" id="features">
         <div class="section-header">
-            <h2>Why Choose Our Classifier?</h2>
-            <p>Cutting-edge technology meets intuitive design</p>
+            <h2>Why Choose Us?</h2>
+            <p>Experience excellence at every turn</p>
         </div>
 
         <div class="features-grid">
@@ -564,8 +338,7 @@
                     </svg>
                 </div>
                 <h3>Lightning Fast</h3>
-                <p>Get instant predictions in milliseconds. Our optimized neural network delivers results at blazing
-                    speeds.</p>
+                <p>Experience blazing speed with our optimized performance systems.</p>
             </div>
 
             <div class="feature-card">
@@ -575,9 +348,8 @@
                         <polyline points="22 4 12 14.01 9 11.01" />
                     </svg>
                 </div>
-                <h3>High Accuracy</h3>
-                <p>Trained on millions of images, our CNN model achieves exceptional accuracy across diverse categories.
-                </p>
+                <h3>Precision Control</h3>
+                <p>Master every curve with pinpoint accuracy and responsive handling.</p>
             </div>
 
             <div class="feature-card">
@@ -588,83 +360,14 @@
                     </svg>
                 </div>
                 <h3>Secure & Private</h3>
-                <p>Your images are processed locally and never stored. Complete privacy guaranteed for all uploads.</p>
+                <p>Your data stays protected with enterprise-grade security.</p>
             </div>
         </div>
     </section>
 
     <footer>
-        <p>&copy; 2026 CNN Image Classifier. Built with Flask & Deep Learning.</p>
+        <p>&copy; 2026 SpeedZone. Built with passion.</p>
     </footer>
-
-    <script>
-        // Create floating particles
-        const particlesContainer = document.getElementById('particles');
-        for (let i = 0; i < 20; i++) {
-            const particle = document.createElement('div');
-            particle.className = 'particle';
-            particle.style.left = Math.random() * 100 + '%';
-            particle.style.animationDelay = Math.random() * 20 + 's';
-            particle.style.animationDuration = (15 + Math.random() * 10) + 's';
-            particlesContainer.appendChild(particle);
-        }
-
-        // File upload handling
-        const uploadBox = document.getElementById('upload-box');
-        const fileInput = document.getElementById('file-input');
-        const previewContainer = document.getElementById('preview-container');
-        const previewImage = document.getElementById('preview-image');
-        const previewName = document.getElementById('preview-name');
-
-        uploadBox.addEventListener('click', () => fileInput.click());
-
-        uploadBox.addEventListener('dragover', (e) => {
-            e.preventDefault();
-            uploadBox.classList.add('dragover');
-        });
-
-        uploadBox.addEventListener('dragleave', () => {
-            uploadBox.classList.remove('dragover');
-        });
-
-        uploadBox.addEventListener('drop', (e) => {
-            e.preventDefault();
-            uploadBox.classList.remove('dragover');
-            const files = e.dataTransfer.files;
-            if (files.length) {
-                fileInput.files = files;
-                showPreview(files[0]);
-            }
-        });
-
-        fileInput.addEventListener('change', () => {
-            if (fileInput.files.length) {
-                showPreview(fileInput.files[0]);
-            }
-        });
-
-        function showPreview(file) {
-            if (file && file.type.startsWith('image/')) {
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    previewImage.src = e.target.result;
-                    previewName.textContent = file.name;
-                    previewContainer.classList.add('active');
-                };
-                reader.readAsDataURL(file);
-            }
-        }
-
-        // Smooth scroll for nav links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
-            });
-        });
-    </script>
 </body>
 
 </html>
