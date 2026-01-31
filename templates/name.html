@@ -4,8 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hello {{name}}</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" rel="stylesheet">
+    <title>Welcome, {{name}}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Orbitron:wght@400;700&display=swap"
+        rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -19,13 +20,41 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            background: #0a0a0f;
+            background: #030014;
             overflow: hidden;
             position: relative;
         }
 
-        /* Animated aurora background */
-        .aurora {
+        /* Epic entrance animation */
+        .entrance-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: white;
+            z-index: 1000;
+            animation: flashEntrance 1.5s ease forwards;
+            pointer-events: none;
+        }
+
+        @keyframes flashEntrance {
+            0% {
+                opacity: 1;
+            }
+
+            30% {
+                opacity: 0.8;
+            }
+
+            100% {
+                opacity: 0;
+                visibility: hidden;
+            }
+        }
+
+        /* Galactic background */
+        .galaxy {
             position: fixed;
             top: 0;
             left: 0;
@@ -33,232 +62,205 @@
             height: 100%;
             z-index: 0;
             background:
-                radial-gradient(ellipse at 10% 20%, rgba(120, 0, 255, 0.4) 0%, transparent 50%),
-                radial-gradient(ellipse at 90% 80%, rgba(0, 255, 200, 0.3) 0%, transparent 50%),
-                radial-gradient(ellipse at 50% 50%, rgba(255, 0, 150, 0.2) 0%, transparent 60%);
-            filter: blur(60px);
-            animation: auroraMove 10s ease-in-out infinite;
+                radial-gradient(ellipse at 50% 50%, rgba(124, 58, 237, 0.3) 0%, transparent 50%),
+                radial-gradient(ellipse at 20% 80%, rgba(236, 72, 153, 0.2) 0%, transparent 40%),
+                radial-gradient(ellipse at 80% 20%, rgba(6, 182, 212, 0.2) 0%, transparent 40%);
+            animation: galaxyRotate 60s linear infinite;
         }
 
-        @keyframes auroraMove {
-
-            0%,
-            100% {
-                transform: scale(1) rotate(0deg);
+        @keyframes galaxyRotate {
+            from {
+                transform: rotate(0deg) scale(1);
             }
 
-            33% {
-                transform: scale(1.1) rotate(5deg);
-            }
-
-            66% {
-                transform: scale(0.95) rotate(-5deg);
+            to {
+                transform: rotate(360deg) scale(1);
             }
         }
 
-        /* Floating orbs */
-        .orbs {
+        /* Nebula clouds */
+        .nebula {
             position: fixed;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
+            width: 200%;
+            height: 200%;
             z-index: 1;
-            overflow: hidden;
+            background:
+                radial-gradient(circle at 30% 40%, rgba(168, 85, 247, 0.15) 0%, transparent 30%),
+                radial-gradient(circle at 70% 60%, rgba(6, 182, 212, 0.1) 0%, transparent 30%);
+            animation: nebulaFloat 20s ease-in-out infinite;
         }
 
-        .orb {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(2px);
-            animation: floatOrb 15s ease-in-out infinite;
-        }
-
-        .orb:nth-child(1) {
-            width: 150px;
-            height: 150px;
-            background: radial-gradient(circle, rgba(255, 100, 255, 0.6) 0%, transparent 70%);
-            top: 20%;
-            left: 10%;
-            animation-delay: 0s;
-        }
-
-        .orb:nth-child(2) {
-            width: 200px;
-            height: 200px;
-            background: radial-gradient(circle, rgba(100, 200, 255, 0.5) 0%, transparent 70%);
-            top: 60%;
-            right: 15%;
-            animation-delay: 3s;
-        }
-
-        .orb:nth-child(3) {
-            width: 120px;
-            height: 120px;
-            background: radial-gradient(circle, rgba(255, 200, 100, 0.5) 0%, transparent 70%);
-            bottom: 20%;
-            left: 30%;
-            animation-delay: 6s;
-        }
-
-        .orb:nth-child(4) {
-            width: 180px;
-            height: 180px;
-            background: radial-gradient(circle, rgba(100, 255, 150, 0.4) 0%, transparent 70%);
-            top: 10%;
-            right: 30%;
-            animation-delay: 2s;
-        }
-
-        .orb:nth-child(5) {
-            width: 100px;
-            height: 100px;
-            background: radial-gradient(circle, rgba(255, 100, 100, 0.5) 0%, transparent 70%);
-            bottom: 30%;
-            right: 40%;
-            animation-delay: 4s;
-        }
-
-        @keyframes floatOrb {
+        @keyframes nebulaFloat {
 
             0%,
             100% {
-                transform: translate(0, 0) scale(1);
-            }
-
-            25% {
-                transform: translate(30px, -40px) scale(1.1);
+                transform: translate(0, 0);
             }
 
             50% {
-                transform: translate(-20px, 20px) scale(0.9);
-            }
-
-            75% {
-                transform: translate(40px, 30px) scale(1.05);
+                transform: translate(-50px, -30px);
             }
         }
 
-        /* Grid lines */
-        .grid {
+        /* Starfield */
+        .starfield {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             z-index: 2;
-            background-image:
-                linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-            background-size: 50px 50px;
-            perspective: 500px;
-            animation: gridMove 20s linear infinite;
         }
 
-        @keyframes gridMove {
-            0% {
-                background-position: 0 0;
-            }
-
-            100% {
-                background-position: 50px 50px;
-            }
-        }
-
-        /* Particles */
-        .particles {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 3;
-            overflow: hidden;
-        }
-
-        .particle {
+        .star {
             position: absolute;
-            width: 4px;
-            height: 4px;
             background: white;
             border-radius: 50%;
-            animation: particleFloat 20s linear infinite;
+            animation: starTwinkle 2s ease-in-out infinite;
+        }
+
+        @keyframes starTwinkle {
+
+            0%,
+            100% {
+                opacity: 0.3;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 1;
+                transform: scale(1.2);
+            }
+        }
+
+        /* Shooting stars */
+        .shooting-star {
+            position: absolute;
+            width: 100px;
+            height: 2px;
+            background: linear-gradient(90deg, white, transparent);
+            animation: shoot 3s linear infinite;
             opacity: 0;
         }
 
-        @keyframes particleFloat {
+        @keyframes shoot {
             0% {
-                transform: translateY(100vh);
+                transform: translateX(-100px) translateY(0);
                 opacity: 0;
             }
 
             10% {
-                opacity: 0.8;
-            }
-
-            90% {
-                opacity: 0.8;
+                opacity: 1;
             }
 
             100% {
-                transform: translateY(-100vh);
+                transform: translateX(calc(100vw + 100px)) translateY(200px);
                 opacity: 0;
             }
         }
 
-        /* Content */
+        /* Main content */
         .content {
             position: relative;
             z-index: 10;
             text-align: center;
+            animation: contentReveal 2s ease 0.5s both;
         }
 
-        h1 {
-            font-size: clamp(3rem, 12vw, 8rem);
-            color: white;
-            text-transform: uppercase;
-            letter-spacing: 0.15em;
-            background: linear-gradient(135deg, #fff 0%, #a78bfa 50%, #38bdf8 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            animation: textShine 3s ease-in-out infinite, fadeInScale 1s ease;
-            filter: drop-shadow(0 0 30px rgba(167, 139, 250, 0.5));
+        @keyframes contentReveal {
+            from {
+                opacity: 0;
+                transform: scale(0.8) translateY(50px);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
         }
 
-        @keyframes textShine {
+        /* Crown/halo effect */
+        .crown {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            animation: crownFloat 3s ease-in-out infinite;
+            filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.5));
+        }
+
+        @keyframes crownFloat {
 
             0%,
             100% {
+                transform: translateY(0) rotate(-5deg);
+            }
+
+            50% {
+                transform: translateY(-15px) rotate(5deg);
+            }
+        }
+
+        .welcome-text {
+            font-family: 'Cinzel', serif;
+            font-size: 1.5rem;
+            color: rgba(255, 255, 255, 0.6);
+            text-transform: uppercase;
+            letter-spacing: 1em;
+            margin-bottom: 1rem;
+            animation: fadeInUp 1s ease 1s both;
+        }
+
+        h1 {
+            font-family: 'Cinzel', serif;
+            font-size: clamp(4rem, 15vw, 12rem);
+            font-weight: 900;
+            text-transform: uppercase;
+            background: linear-gradient(135deg, #ffd700 0%, #ff6b6b 25%, #a855f7 50%, #06b6d4 75%, #ffd700 100%);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: rainbowShift 3s ease infinite, nameReveal 1.5s ease 0.8s both;
+            filter: drop-shadow(0 0 50px rgba(168, 85, 247, 0.5));
+            letter-spacing: 0.1em;
+        }
+
+        @keyframes rainbowShift {
+            0% {
                 background-position: 0% 50%;
-                filter: drop-shadow(0 0 30px rgba(167, 139, 250, 0.5));
             }
 
             50% {
                 background-position: 100% 50%;
-                filter: drop-shadow(0 0 50px rgba(56, 189, 248, 0.7));
+            }
+
+            100% {
+                background-position: 0% 50%;
             }
         }
 
-        @keyframes fadeInScale {
+        @keyframes nameReveal {
             from {
                 opacity: 0;
                 transform: scale(0.5);
+                filter: blur(20px);
             }
 
             to {
                 opacity: 1;
                 transform: scale(1);
+                filter: blur(0);
             }
         }
 
-        .tagline {
-            margin-top: 1.5rem;
+        .subtitle {
             font-size: 1.2rem;
             color: rgba(255, 255, 255, 0.5);
-            letter-spacing: 0.5em;
+            margin-top: 2rem;
+            letter-spacing: 0.3em;
             text-transform: uppercase;
-            animation: fadeInUp 1s ease 0.5s both;
+            animation: fadeInUp 1s ease 1.5s both;
         }
 
         @keyframes fadeInUp {
@@ -273,98 +275,202 @@
             }
         }
 
-        /* Decorative rings */
-        .rings {
+        /* Decorative elements */
+        .glow-orbs {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 3;
+            pointer-events: none;
+        }
+
+        .glow-orb {
             position: absolute;
+            border-radius: 50%;
+            filter: blur(60px);
+            animation: orbFloat 10s ease-in-out infinite;
+        }
+
+        .glow-orb:nth-child(1) {
+            width: 300px;
+            height: 300px;
+            background: rgba(168, 85, 247, 0.3);
+            top: 10%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .glow-orb:nth-child(2) {
+            width: 400px;
+            height: 400px;
+            background: rgba(6, 182, 212, 0.2);
+            bottom: 10%;
+            right: 10%;
+            animation-delay: 3s;
+        }
+
+        .glow-orb:nth-child(3) {
+            width: 250px;
+            height: 250px;
+            background: rgba(236, 72, 153, 0.25);
             top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+            right: 30%;
+            animation-delay: 6s;
+        }
+
+        @keyframes orbFloat {
+
+            0%,
+            100% {
+                transform: translate(0, 0) scale(1);
+            }
+
+            33% {
+                transform: translate(30px, -50px) scale(1.1);
+            }
+
+            66% {
+                transform: translate(-20px, 30px) scale(0.9);
+            }
+        }
+
+        /* Magic particles */
+        .magic-particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             z-index: 5;
             pointer-events: none;
         }
 
-        .ring {
+        .magic-particle {
             position: absolute;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            width: 6px;
+            height: 6px;
+            background: gold;
             border-radius: 50%;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            animation: ringPulse 4s ease-in-out infinite;
+            animation: magicRise 8s linear infinite;
+            box-shadow: 0 0 10px gold, 0 0 20px gold;
         }
 
-        .ring:nth-child(1) {
-            width: 300px;
-            height: 300px;
-            animation-delay: 0s;
-        }
-
-        .ring:nth-child(2) {
-            width: 450px;
-            height: 450px;
-            animation-delay: 0.5s;
-        }
-
-        .ring:nth-child(3) {
-            width: 600px;
-            height: 600px;
-            animation-delay: 1s;
-        }
-
-        @keyframes ringPulse {
-
-            0%,
-            100% {
-                opacity: 0.1;
-                transform: translate(-50%, -50%) scale(1);
+        @keyframes magicRise {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
             }
 
-            50% {
-                opacity: 0.3;
-                transform: translate(-50%, -50%) scale(1.05);
+            10% {
+                opacity: 1;
+            }
+
+            90% {
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(-100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        /* Back link */
+        .back-link {
+            position: fixed;
+            top: 2rem;
+            left: 2rem;
+            color: rgba(255, 255, 255, 0.4);
+            text-decoration: none;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            z-index: 100;
+        }
+
+        .back-link:hover {
+            color: white;
+            transform: translateX(-5px);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .welcome-text {
+                letter-spacing: 0.3em;
+                font-size: 1rem;
             }
         }
     </style>
 </head>
 
 <body>
-    <div class="aurora"></div>
+    <div class="entrance-overlay"></div>
+    <div class="galaxy"></div>
+    <div class="nebula"></div>
+    <div class="starfield" id="starfield"></div>
 
-    <div class="orbs">
-        <div class="orb"></div>
-        <div class="orb"></div>
-        <div class="orb"></div>
-        <div class="orb"></div>
-        <div class="orb"></div>
+    <div class="glow-orbs">
+        <div class="glow-orb"></div>
+        <div class="glow-orb"></div>
+        <div class="glow-orb"></div>
     </div>
 
-    <div class="grid"></div>
+    <div class="magic-particles" id="magic-particles"></div>
 
-    <div class="particles" id="particles"></div>
-
-    <div class="rings">
-        <div class="ring"></div>
-        <div class="ring"></div>
-        <div class="ring"></div>
-    </div>
+    <a href="/abc" class="back-link">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M19 12H5M12 19l-7-7 7-7" />
+        </svg>
+        Return to Portal
+    </a>
 
     <div class="content">
+        <div class="crown">👑</div>
+        <p class="welcome-text">All Hail</p>
         <h1>{{name}}</h1>
-        <p class="tagline">Welcome</p>
+        <p class="subtitle">The Chosen One Has Arrived</p>
     </div>
 
     <script>
-        // Create floating particles
-        const particlesContainer = document.getElementById('particles');
-        for (let i = 0; i < 30; i++) {
+        // Create stars
+        const starfield = document.getElementById('starfield');
+        for (let i = 0; i < 150; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            star.style.left = Math.random() * 100 + '%';
+            star.style.top = Math.random() * 100 + '%';
+            star.style.width = (1 + Math.random() * 3) + 'px';
+            star.style.height = star.style.width;
+            star.style.animationDelay = Math.random() * 2 + 's';
+            starfield.appendChild(star);
+        }
+
+        // Create shooting stars
+        for (let i = 0; i < 3; i++) {
+            const shootingStar = document.createElement('div');
+            shootingStar.className = 'shooting-star';
+            shootingStar.style.top = (10 + Math.random() * 40) + '%';
+            shootingStar.style.left = '-100px';
+            shootingStar.style.animationDelay = (i * 4 + Math.random() * 2) + 's';
+            starfield.appendChild(shootingStar);
+        }
+
+        // Create magic particles
+        const magicParticles = document.getElementById('magic-particles');
+        for (let i = 0; i < 25; i++) {
             const particle = document.createElement('div');
-            particle.className = 'particle';
+            particle.className = 'magic-particle';
             particle.style.left = Math.random() * 100 + '%';
-            particle.style.animationDelay = Math.random() * 20 + 's';
-            particle.style.animationDuration = (10 + Math.random() * 15) + 's';
-            particle.style.width = (2 + Math.random() * 4) + 'px';
-            particle.style.height = particle.style.width;
-            particlesContainer.appendChild(particle);
+            particle.style.animationDelay = Math.random() * 8 + 's';
+            particle.style.animationDuration = (5 + Math.random() * 5) + 's';
+            const hue = Math.random() > 0.5 ? '45' : '280'; // gold or purple
+            particle.style.background = `hsl(${hue}, 100%, 60%)`;
+            particle.style.boxShadow = `0 0 10px hsl(${hue}, 100%, 60%), 0 0 20px hsl(${hue}, 100%, 60%)`;
+            magicParticles.appendChild(particle);
         }
     </script>
 </body>
