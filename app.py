@@ -1,16 +1,17 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template
 
 app = Flask(__name__)
 
-@app.route("/", methods=["GET", "POST"])
+@app.route("/")
 def index():
-    if request.method == "POST":
-        # Handle file upload
-        file = request.files.get("file")
-        if file:
-            # TODO: Process the uploaded image with CNN model
-            pass
     return render_template("index.html")
+
+@app.route("/<name>")
+def name(name):
+    return render_template("name.html", name=name)
+@app.route("/abc")
+def abc():
+    return render_template("abc.html")
 
 if __name__ == "__main__":
     app.run(debug=True)
